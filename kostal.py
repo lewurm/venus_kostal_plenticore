@@ -163,6 +163,20 @@ def set_dbus_data(data):
 
         inverter.dbus_inverter.set('/Ac/Energy/Forward', (data['EFAT']))
 
+        # PV Battery
+        inverter.dbus_inverter.set('/Dc/0/Voltage', (data['batU']))
+        inverter.dbus_inverter.set('/Dc/0/Current', (data['batA']), 1)
+        inverter.dbus_inverter.set('/Dc/0/Power', (data['batP']))
+        inverter.dbus_inverter.set('/Soc', (data['batSOC']))
+
+        # PV paths
+        inverter.dbus_inverter.set('/Pv/0/V', (data['PV0U']))
+        inverter.dbus_inverter.set('/Pv/0/I', (data['PV0I']), 1)
+        inverter.dbus_inverter.set('/Pv/0/P', (data['PV0P']))
+        inverter.dbus_inverter.set('/Pv/1/V', (data['PV1U']))
+        inverter.dbus_inverter.set('/Pv/1/I', (data['PV1I']), 1)
+        inverter.dbus_inverter.set('/Pv/1/P', (data['PV1P']))
+
         print("++++++++++")
         print("POWER Phase A: " + str(data['PA']) + "W")
         print("POWER Phase B: " + str(data['PB']) + "W")

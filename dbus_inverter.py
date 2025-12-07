@@ -46,6 +46,7 @@ class DbusInverter:
         _w = lambda p, v: (str(v) + 'W')
         _v = lambda p, v: (str(v) + 'V')
         _s = lambda p, v: (str(v) + 's')
+        _p = lambda p, v: (str(v) + '%')
         _x = lambda p, v: (str(v))
 
         self.dbusservice.add_path('/Ac/Energy/Forward', None, gettextcallback=_kwh)
@@ -73,6 +74,20 @@ class DbusInverter:
         self.dbusservice.add_path('/stats/last_repeated_values', 0, gettextcallback=_x, writeable=True)
         self.dbusservice.add_path('/stats/reconnect', 0, gettextcallback=_x)
         self.dbusservice.add_path('/Mgmt/intervall', 1, gettextcallback=_s, writeable=True)
+
+        # battery
+        self.dbusservice.add_path('/Dc/0/Voltage', None, gettextcallback=_v)
+        self.dbusservice.add_path('/Dc/0/Current', None, gettextcallback=_a) 
+        self.dbusservice.add_path('/Dc/0/Power', None, gettextcallback=_w) 
+        self.dbusservice.add_path('/Soc', None, gettextcallback=_p) 
+
+        # PV paths
+        self.dbusservice.add_path('/Pv/0/V', None, gettextcallback=_v) 
+        self.dbusservice.add_path('/Pv/0/I', None, gettextcallback=_a) 
+        self.dbusservice.add_path('/Pv/0/P', None, gettextcallback=_w) 
+        self.dbusservice.add_path('/Pv/1/V', None, gettextcallback=_v) 
+        self.dbusservice.add_path('/Pv/1/I', None, gettextcallback=_a) 
+        self.dbusservice.add_path('/Pv/1/P', None, gettextcallback=_w) 
 
         self.dbusservice.register()
 

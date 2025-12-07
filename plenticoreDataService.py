@@ -33,6 +33,31 @@ def get_data(baseUrl, sessionId):
     data['PT'] = data['PA'] + data['PB'] + data['PC']
     data['IN0'] = round(data['IA'] + data['IB'] + data['IC'], 1)
 
+    url = baseUrl + "/processdata/devices:local:battery"
+    response = requests.get(url=url, headers=headers)
+    processdata = response.json()[0]['processdata']
+
+    data['batU'] = round(getProcessDataValue('U'), 1)
+    data['batA'] = round(getProcessDataValue('I'), 1)
+    data['batP'] = round(getProcessDataValue('P'), 1)
+    data['batSOC'] = round(getProcessDataValue('SoC'), 1)
+
+    url = baseUrl + "/processdata/devices:local:pv1"
+    response = requests.get(url=url, headers=headers)
+    processdata = response.json()[0]['processdata']
+
+    data['PV0U'] = round(getProcessDataValue('U'), 1)
+    data['PV0I'] = round(getProcessDataValue('I'), 1)
+    data['PV0P'] = round(getProcessDataValue('P'), 1)
+
+    url = baseUrl + "/processdata/devices:local:pv2"
+    response = requests.get(url=url, headers=headers)
+    processdata = response.json()[0]['processdata']
+
+    data['PV1U'] = round(getProcessDataValue('U'), 1)
+    data['PV1I'] = round(getProcessDataValue('I'), 1)
+    data['PV1P'] = round(getProcessDataValue('P'), 1)
+
     url = baseUrl + "/processdata/scb:statistic:EnergyFlow/Statistic:Yield:Total"
     response = requests.get(url=url, headers=headers)
     energy = response.json()[0]['processdata'][0]['value']
